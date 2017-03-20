@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -16,27 +16,37 @@
         <div class="small-6 columns">
             <h1 class="text-center">Ty</h1>
             <div class="healthbar">
-                <div class="healthbar text-center" style="background-color: green; margin: 0; color:white"></div>
+                <div class="healthbar text-center"
+                     style="background-color: green; margin: 0; color:white"
+                     :style="{width: playerHp+'%'}"
+                >
+                    {{playerHp}}
+                </div>
             </div>
         </div>
         <div class="small-6 columns">
             <h1 class="text-center">Przeciwnik</h1>
             <div class="healthbar">
-                <div class="healthbar text-center" style="background-color: green; margin: 0; color:white"></div>
+                <div class="healthbar text-center"
+                     style="background-color: green; margin: 0; color:white"
+                     v-bind:style="{width: `${enemyHp}%`}"
+                >
+                    {{enemyHp}}
+                </div>
             </div>
         </div>
     </section>
-    <section class="row controls">
+    <section v-if="!isRunning" class="row controls">
         <div class="small-12 columns">
-            <button id="start-game">Zacznij</button>
+            <button @click="startGame" id="start-game">Zacznij</button>
         </div>
     </section>
-    <section class="row controls">
+    <section v-if="isRunning" class="row controls">
         <div class="small-12 columns">
-            <button id="attack">Atakuj</button>
-            <button id="special-attack">Atak specjalny</button>
-            <button id="heal">lecz</button>
-            <button id="give-up">poddaj się</button>
+            <button @click="attack" id="attack">Atakuj</button>
+            <button @click="specialAttack" id="special-attack">Atak specjalny</button>
+            <button @click="heal" id="heal">lecz</button>
+            <button v-on:click="surrender" id="give-up">poddaj się</button>
         </div>
     </section>
     <section class="row log">
