@@ -1,6 +1,6 @@
 <template>
     <main-layout>
-        <p>Home</p>
+        <p>Nodemagle!</p>
     </main-layout>
 </template>
 
