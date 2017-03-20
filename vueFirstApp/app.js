@@ -1,16 +1,20 @@
 (function () {
+    var id = 0;
+
     new Vue({
         el: "#app",
         data: {
             playerHp: 100,
             enemyHp: 100,
-            isRunning: false
+            isRunning: false,
+            log: []
         },
         methods: {
             startGame: function () {
-                this.isRunning = true
                 this.playerHp = 100;
                 this.enemyHp = 100;
+                this.log = [];
+                this.isRunning = true
             },
             surrender: function () {
                 this.isRunning = false;
@@ -32,20 +36,40 @@
                 Math.random() > 0.4
                     ? this.playerHp = dealDmg(5, 15, this.playerHp)
                     : this.enemyHp = healDmg(5, 15, this.enemyHp);
+            },
+            addLogMsg: function (person, diff) {
+                console.log(diff);
+                if (this.isRunning) {
+                    var action = diff < 0;
+                    this.log = this.log.concat({
+                        key: ++id,
+                        person: person,
+                        actionColor: action ? 'red' : 'green',
+                        action: action ? "stracił" : "odzyskał",
+                        value: Math.abs(diff)
+                    })
+                }
             }
         },
         watch: {
-            playerHp: function(newHp, oldHp) {
+            playerHp: function (newHp, oldHp) {
+                this.addLogMsg("Gracz", newHp - oldHp);
                 checkResult.call(this, newHp, "Przegrałeś");
             },
             enemyHp: function (newHp, oldHp) {
+                this.addLogMsg("Przeciwniik", newHp - oldHp);
                 checkResult.call(this, newHp, "Wygrałeś");
+            },
+            isRunning: function(){
+                if(this.isRunning){
+                    this.log = [];
+                }
             }
         }
     });
 
-    function checkResult(hp, msg){
-        if(hp == 0 && this.isRunning) {
+    function checkResult(hp, msg) {
+        if (hp == 0 && this.isRunning) {
             this.isRunning = false;
             alert(msg);
         }

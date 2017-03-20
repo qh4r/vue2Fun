@@ -49,11 +49,11 @@
             <button v-on:click="surrender" id="give-up">poddaj się</button>
         </div>
     </section>
-    <section class="row log">
+    <section class="row log" v-if="log.length > 0">
         <div class="small-12 columns">
             <ul>
-                <li>
-
+                <li v-for="msg of log" :style="{color: msg.actionColor}" :key="msg.key">
+                    {{`${msg.person} ${msg.action} ${msg.value}`}}
                 </li>
             </ul>
         </div>
