@@ -1,8 +1,13 @@
 (function () {
     var id = 0;
 
-    new Vue({
-        el: "#app",
+    Vue.component("test", {
+        // zamiast template mozna uzyc el i odnosnika
+        template: "<p>testowy komponent</p>"
+    });
+
+    var instance =new Vue({
+        // el: "#app",
         data: {
             playerHp: 100,
             enemyHp: 100,
@@ -14,10 +19,14 @@
                 this.playerHp = 100;
                 this.enemyHp = 100;
                 this.log = [];
-                this.isRunning = true
+                this.isRunning = true;
+                // Maly showcase sekcji
+                // jesli sekcja nie jest w danym momencie wyrenderowana to jej wartosc klucza na refs to UNDEFINED!
+                console.log(this.$refs, this.$refs.controlsSection);
             },
             surrender: function () {
                 this.isRunning = false;
+                console.log(this.$refs, this.$refs.controlsSection);
             },
             attack: function () {
                 this.enemyHp = dealDmg(9, 18, this.enemyHp)
@@ -67,6 +76,11 @@
             }
         }
     });
+
+    // alternatywa dla el!
+    setTimeout(function(){
+        instance.$mount(document.querySelector('#app'));
+    },1000);
 
     function checkResult(hp, msg) {
         if (hp == 0 && this.isRunning) {

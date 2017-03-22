@@ -36,12 +36,12 @@
             </div>
         </div>
     </section>
-    <section v-if="!isRunning" class="row controls">
+    <section ref="startSection" v-if="!isRunning" class="row controls">
         <div class="small-12 columns">
             <button @click="startGame" id="start-game">Zacznij</button>
         </div>
     </section>
-    <section v-if="isRunning" class="row controls">
+    <section ref="controlsSection" v-if="isRunning" class="row controls">
         <div class="small-12 columns">
             <button @click="attack" id="attack">Atakuj</button>
             <button @click="specialAttack" id="special-attack">Atak specjalny</button>
@@ -58,6 +58,7 @@
             </ul>
         </div>
     </section>
+    <test></test>
 </div>
 <script type="application/javascript" src="app.js"></script>
 </body>
