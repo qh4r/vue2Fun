@@ -1,7 +1,7 @@
 <!--template musi miec 1 element w roocie (jak w reakcie)-->
 <template>
   <div>
-    <p>Status: {{statusText}}
+    <p :class="{warning: !status}">Status: {{statusText}}
       <button @click="changeStatus">Zmień</button>
     </p>
   </div>
@@ -28,6 +28,12 @@
   }
 </script>
 
-<style lang="sass">
+<style scoped lang="sass">
+  p
+    color: #55e21f
+    button
+      color: black
+    &.warning
+      color: #ff232a
 
 </style>
