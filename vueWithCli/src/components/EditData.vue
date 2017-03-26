@@ -28,7 +28,16 @@
       }
     },
     props: {
-      user: Object
+      user: {
+        type: Object,
+        default(){
+          return {
+            name: "",
+            surname: "",
+            age: 0
+          }
+        }
+      }
     },
     methods: {
       submitData(){
