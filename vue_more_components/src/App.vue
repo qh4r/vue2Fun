@@ -1,44 +1,45 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-xs-12">
-        works
+      <button class="btn bt-lg col-xs-4 btn-info" @click="selectComponent('creator-view')">Autor</button>
+      <button class="btn bt-lg col-xs-4 btn-info" @click="selectComponent('new-text')">Nowy</button>
+      <button class="btn bt-lg col-xs-4 btn-info" @click="selectComponent('text-list')">Lista</button>
+      <!--IS OKRESLA WSKAZYWANY KOMPONENT-->
+      <!--selected component pozwala dynamicznie zmieniac komponenty-->
+        <component :is="selectedComponent" name="recycled">
+          <p>ten tekst pojawi sie w slocie jesli taki bedzie instnial!</p>
+        </component>
+        <!--Waznym elementem jest to że zmiana komponentu powoduje jego ponowne utworzenie i mount-->
 
-
-      </div>
-      <text-display class="col-xs-5">
-        <h2>Jakiś tam cytat</h2>
-        <p slot="foot">przekazana stopka!</p>
-      </text-display>
-      <text-display class="col-xs-5">
-        <!-- nazwa slota powoduje wyrenderowanie w slocie o takim imieniu,
-          albo nie wyrenderowanie wcale jesli slot tak nazwany nie istnieje-->
-        <h1 slot="title">Naglowek!</h1>
-        <h4>Kolejny cytat</h4>
-        <p>{{ example }}</p>
-        <!--interpolacja odbywa sie przed przekazaniem nizej (a potem jest aktualizowana)-->
-      </text-display>
+      <!-- keep alive sprawia ze komponenty nie sa usuwane przy przelaczaniu na inny -->
+      <keep-alive>
+        <component :is="selectedComponent" name="kept-alive">
+          <p>ten tekst pojawi sie w slocie jesli taki bedzie instnial!</p>
+        </component>
+      </keep-alive>
     </div>
   </div>
 </template>
 
 <script>
-  import TextDisplay from './components/TextDisplay.vue'
+  import TextList from './components/TextList.vue'
+  import Creator from './components/Createor.vue'
+  import NewText from './components/NewText.vue'
+
   export default {
     components: {
-      TextDisplay, "text-display": TextDisplay
+      "text-list": TextList,
+      "creator-view": Creator,
+      "new-text": NewText,
     },
     data () {
-      setInterval(() => {
-        this.counter++;
-      }, 5000);
       return {
-        counter: 0
+        selectedComponent: "text-list"
       }
     },
-    computed: {
-      example(){
-        return `ten tekst zostanie zinterpolowany w rodzicu a nie w dziecku ${this.counter}`
+    methods: {
+      selectComponent(component){
+        this.selectedComponent = component
       }
     }
   }
@@ -70,10 +71,5 @@
 
   a {
     color: #42b983;
-  }
-
-  /*BEDZIE MIALO WPLYW NA TO CO PRZEKAZEMY DO SCOPE ALE MOZE ZOSTAC W SCOPE NADPISANE*/
-  h4, h2 {
-    color: red;
   }
 </style>
