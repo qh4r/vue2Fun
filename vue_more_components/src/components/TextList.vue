@@ -2,12 +2,14 @@
   <div>
     <text-display class="col-xs-5">
       <h2>Jakiś tam cytat</h2>
-      <p slot="foot">przekazana stopka!</p>
+      <!-- styl nadany tu ma implementacje wewnatrz komponentu i tam dziala - style na slocie nie maja na nic wplywu-->
+      <!-- dzieki orderowi mozna opcjonalnie ukrywac hr przy pomocy css + a wyswietlac go we flexie i tak na koncu -->
+      <p class="hr-after" style="order: 5" slot="foot">przekazana stopka!</p>
     </text-display>
     <text-display class="col-xs-5">
       <!-- nazwa slota powoduje wyrenderowanie w slocie o takim imieniu,
         albo nie wyrenderowanie wcale jesli slot tak nazwany nie istnieje-->
-      <h1 slot="title">Naglowek!</h1>
+      <h1 class="hr-after" slot="title">Naglowek!</h1>
       <h4>Kolejny cytat</h4>
       <p>{{ example }}</p>
       <!--interpolacja odbywa sie przed przekazaniem nizej (a potem jest aktualizowana)-->
