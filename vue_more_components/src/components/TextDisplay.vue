@@ -42,6 +42,8 @@
     /*sprawia ze hr wyswietlane bedzie tylko gdy title jest obaecny*/
     hr {
         display: none;
+        /*MARGINS SET AS A HACK*/
+        /* sprawia ze hr jest widoczny we flex boxie - inaczej znika :(*/
         margin-left: 0;
         margin-right: 0;
     }

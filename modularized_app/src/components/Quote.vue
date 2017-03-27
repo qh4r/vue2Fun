@@ -34,5 +34,10 @@
         width: 23%;
         max-width: 23%;
         min-width: 200px;
+        display: flex;
+        flex-wrap: wrap;
+        white-space: normal;
+        word-wrap: break-word;
+        word-break: break-all;
     }
 </style>
