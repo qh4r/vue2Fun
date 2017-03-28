@@ -1,14 +1,17 @@
 <template>
     <div class="quotes-container">
+        <progress-bar :current="quotesCount" :max="maxQuotes"></progress-bar>
         <quote-item @deleteQuote="onDeleteQuote" :id="index" :quote="quote" v-for="(quote, index) in quotes"></quote-item>
     </div>
 </template>
 
 <script>
-    import Quote from "./Quote.vue"
+    import Quote from "./Quote.vue";
+    import ProgressBar from "./ProgressBar.vue";
     export default {
         components: {
-            "quote-item": Quote
+            "quote-item": Quote,
+            ProgressBar
         },
         props: {
             quotes: {
