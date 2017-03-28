@@ -1,5 +1,5 @@
 <template>
-    <div class="quote-body">
+    <div class="quote-body" @click="deleteCallback">
         {{quote}}
     </div>
 </template>
@@ -10,10 +10,19 @@
             quote: {
                 type: String,
                 required: true
+            },
+            id: {
+                type: Number,
+                required: true
             }
         },
         data () {
             return {}
+        },
+        methods: {
+            deleteCallback(){
+                this.$emit('deleteQuote', this.id)
+            }
         }
     }
 </script>

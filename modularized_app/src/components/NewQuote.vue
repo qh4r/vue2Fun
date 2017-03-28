@@ -2,13 +2,19 @@
     <div class="new-quote-container">
         <div class="new-quote-input-controls">
             <textarea placeholder="Wpisz tu cytat" :value="newQuoteText" @change="onQuoteUpdate"></textarea>
-            <button @click="newQuoteCallback" class="btn btn-primary">Dodaj</button>
+            <button :disabled="!canAddMore" @click="newQuoteCallback" class="btn btn-primary">Dodaj</button>
         </div>
     </div>
 </template>
 
 <script>
     export default {
+        props: {
+            canAddMore: {
+                type: Boolean,
+                required: true
+            }
+        },
         data () {
             return {
                 newQuoteText: ""

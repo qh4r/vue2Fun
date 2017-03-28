@@ -1,7 +1,7 @@
 <template>
     <div class="container app-container">
-        <new-quote @newQuoteAdded="addQuote"></new-quote>
-        <quotes-list :quotes="quotes"></quotes-list>
+        <new-quote :canAddMore="canAddMore" @newQuoteAdded="addQuote"></new-quote>
+        <quotes-list :maxQuotes="maxQuotes" @deleteQuote="onDeleteQuote" :quotes="quotes"></quotes-list>
     </div>
 </template>
 
@@ -22,7 +22,18 @@
         },
         methods: {
             addQuote(text){
-                this.quotes.push(text);
+                if (this.canAddMore) {
+                    this.quotes.push(text);
+                }
+            },
+            onDeleteQuote(index){
+                console.log('app ', index)
+                this.quotes.splice(index, 1);
+            }
+        },
+        computed: {
+            canAddMore() {
+                return this.maxQuotes > this.quotes.length;
             }
         }
     }
