@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="container">
-            <form>
+            <form @submit.prevent="onSubmit">
                 <div class="row">
                     <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
                         <h1>Zarzalenie</h1>
@@ -100,6 +100,9 @@
                         </button>
                     </div>
                 </div>
+                <div class="row">
+                    <label for="toggle"><toggle-switch id="toggle" v-model="aggressive"></toggle-switch> Jestem agresywny</label>
+                </div>
             </form>
             <hr>
             <div class="row">
@@ -123,7 +126,7 @@
                             <p>Subskrybjca: {{newsletter}}</p>
                             <p>Płeć: {{gender}}</p>
                             <p>Priorytet: {{selectedPriority}}</p>
-                            <p>Zmieniono:</p>
+                            <p>Agresja? {{aggressive}}</p>
                         </div>
                     </div>
                 </div>
@@ -133,7 +136,11 @@
 </template>
 
 <script>
+    import Switch from "./Switch.vue"
     export default {
+        components: {
+            "toggle-switch": Switch
+        },
         data () {
             return {
                 user: {
@@ -146,12 +153,19 @@
                 newsletter: false,
                 gender: "",
                 priorities: ["Wysoki", "średni", "Niski"],
-                selectedPriority: "średni"
+                selectedPriority: "średni",
+                aggressive: false
             }
         },
         computed: {
             shortMessage(){
                 return this.message.length > 25 ? `${this.message.substring(0, 25).trim()}...` : this.message;
+            }
+        },
+        methods: {
+            onSubmit(data){
+                // domyslnie data.target.elements to nie tablica (jak porperties w funkcji)
+                console.log(Array.prototype.slice.call(data.target.elements).map(x => `${x.id} -> ${x.value}`))
             }
         }
     }
