@@ -7,17 +7,13 @@
 </template>
 
 <script>
+  import { listMixin } from "./listMixin";
   export default {
-    data () {
-      return {
-        filterQuote: "",
-        names: ["Rafał", "Arek", "Grzegorz", "Asia", "Marek", "Darek", "Ola", "Romek"]
-      }
-    },
-    computed: {
-      matchingNames: function () {
-        return this.names.filter(x => x.toLowerCase().indexOf(this.filterQuote) > -1)
-      }
+    mixins: [listMixin],
+    beforeMount() {
+      // tyczy sie to wszystkich hookow - mixin ich nie nadipisuje, odpala sie wszystkie, a w komponencie odpala sie ostatnie.
+      console.log("Before mount komponentu odpala sie PO mixinie \n computed:", this.compute() )
+      this.print();
     }
   }
 </script>
