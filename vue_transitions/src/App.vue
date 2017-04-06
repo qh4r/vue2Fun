@@ -136,6 +136,16 @@
 
                 </component>
             </transition>
+            <hr>
+            <button class="btn info" @click="addNext">Dodaj numer</button>
+            <!--dodatkowo jest dostepne {NAZWA}-move-->
+            <ul class="list-group" :style="{position: 'relative'}" > <!-- taki styl ogranicza szerokosc dzieci absolute 0 0 do kontenera ;3 -->
+                <transition-group name="mix">
+                <li :key="number" @click="removeNumber(index)" v-for="(number, index) in numbers" class="list-group-item">
+                    {{number}}
+                </li>
+                </transition-group>
+            </ul>
         </div>
     </div>
 </template>
@@ -148,7 +158,7 @@
         components: {
             'test-1': Test1,
             'test-2': Test2,
-            'test-3': Test3
+            'test-3': Test3,
         },
         data () {
             return {
@@ -158,10 +168,18 @@
                 boxWidth: 100,
                 enterLoop: null,
                 leaveLoop: null,
-                componentSelection: 'test-3'
+                componentSelection: 'test-3',
+                numbers: [1,2,3,4,5,6]
             }
         },
         methods: {
+            addNext(){
+              var last = this.numbers.length ? Math.max.apply(null, this.numbers) : 0;
+              this.numbers.push(last + 1);
+            },
+            removeNumber(index){
+              this.numbers.splice(index , 1);
+            },
             toggle(){
                 this.secretVisible = !this.secretVisible;
             },
@@ -276,10 +294,10 @@
     }
 
     @keyframes slide-out {
-        from {
+        0% {
             transform: translateY(0);
         }
-        to {
+        100% {
             transform: translateY(20px);
         }
     }
@@ -294,6 +312,10 @@
 
     .slide-leave {
 
+    }
+
+    .slide-move {
+        transition: transform 1s;
     }
 
     /*forwards sprawia ze animacja zostaje po zakonczeniu i nie wraca ani nie loopuje*/
@@ -314,7 +336,15 @@
     }
 
     .mix-leave-active {
-        @extend .slide-leave-active, .fade-leave-active
+        @extend .slide-leave-active, .fade-leave-active;
+        position: absolute;
+        left: 0;
+        right: 0;
+        /*sprawia ze elementy moga na niego nachodzic gdy jest animowany*/;
     }
 
+    /*TO SPRAWIA ZE PRZESUWANIE SIE ITEMOW (SPOWODOWANE ZNIKNIECIEM SASIADA JEST ANIMOWANE*/
+    .mix-move {
+        transition: transform 1s;
+    }
 </style>
