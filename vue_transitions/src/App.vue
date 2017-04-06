@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-model="http://www.w3.org/1999/xhtml">
     <div class="container">
         <div class="row">
             <button @click="toggle" class="btn btn-primary">Pokaż ukryte</button>
@@ -13,12 +13,18 @@
 
 
 
+
+
+
                 </div>
             </transition>
             <!-- animacja dziala tak samo z v-show-->
             <transition name="slide">
                 <div v-show="secretVisible" class="alert alert-info">
                     To też
+
+
+
 
 
 
@@ -41,6 +47,9 @@
 
 
 
+
+
+
                 </div>
             </transition>
 
@@ -53,6 +62,9 @@
             >
                 <div v-show="secretVisible" class="alert alert-info">
                     no i z super animacja
+
+
+
 
 
 
@@ -89,6 +101,9 @@
                     Eventy eventy eventy
 
 
+
+
+
                 </div>
             </transition>
             <hr>
@@ -109,12 +124,32 @@
 
                 </div>
             </transition>
+
+            <hr>
+            <select class="form-control" v-model:value="componentSelection" name="testSelection">
+                <option value="test-1">Test 1</option>
+                <option value="test-2">Test 2</option>
+                <option value="test-3">Test 3</option>
+            </select>
+            <transition appear name="fade" mode="out-in">
+                <component :is="componentSelection">
+
+                </component>
+            </transition>
         </div>
     </div>
 </template>
 
 <script>
+    import Test1 from './components/test1.vue';
+    import Test2 from './components/test2.vue';
+    import Test3 from './components/test3.vue';
     export default {
+        components: {
+            'test-1': Test1,
+            'test-2': Test2,
+            'test-3': Test3
+        },
         data () {
             return {
                 secretVisible: false,
@@ -122,7 +157,8 @@
                 jsVisible: false,
                 boxWidth: 100,
                 enterLoop: null,
-                leaveLoop: null
+                leaveLoop: null,
+                componentSelection: 'test-3'
             }
         },
         methods: {
@@ -185,7 +221,7 @@
                 this.leaveLoop = setInterval(() => {
                     elem.style.width = --this.boxWidth + 'px';
                     if (this.boxWidth < 101) {
-                        clearInterval(this.leaveLoop );
+                        clearInterval(this.leaveLoop);
                         done();
                     }
                 }, 1)
@@ -195,13 +231,13 @@
                 console.log('after leave !', elem);
             },
             jsEnterCanceled(elem) {
-                if(this.enterLoop){
+                if (this.enterLoop) {
                     clearInterval(this.enterLoop)
                 }
                 console.log('canceled enter !', elem), this.enterLoop;
             },
             jsLeaveCanceled(elem) {
-                if(this.leaveLoop){
+                if (this.leaveLoop) {
                     clearInterval(this.leaveLoop)
                 }
                 console.log('canceled leave !', elem);
