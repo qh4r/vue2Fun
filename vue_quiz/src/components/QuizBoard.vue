@@ -3,7 +3,7 @@
         <!--v-bind pozwala bindowac caly boiekt jak spread-->
         <transition name="squash" mode="out-in" type="animation">
             <component
-                    @start-game="startGame"
+                    @start-game="nextQuestion"
                     @answer="onAnswer"
                     @next-question="nextQuestion"
                     :is="activeCard" v-bind="cardProps[activeCard]"></component>
@@ -15,6 +15,7 @@
     import StartGameCard from './StartGameCard.vue';
     import QuestionCard from './QuestionCard.vue';
     import AnswerResultCard from './AnswerResultCard.vue';
+    import EndResultCard from './EndResultCard.vue';
     export default {
         props: {
             questions: {
@@ -34,25 +35,26 @@
             },
             failMessage: {
                 type: String
+            },
+            endMessage: {
+                type: String
             }
         },
         components: {
             "start-game-card": StartGameCard,
             "question-card": QuestionCard,
-            'answer-result-card': AnswerResultCard
+            "answer-result-card": AnswerResultCard,
+            "end-result-card": EndResultCard
         },
         data () {
             return {
                 activeCard: "start-game-card",
-                questionNumber: 1,
+                questionNumber: 0,
                 score: 0,
                 lastAnswer: ''
             }
         },
         methods: {
-            startGame(){
-                this.activeCard = "question-card"
-            },
             onAnswer(selectedKey){
                 this.lastAnswer = selectedKey;
                 if (this.activeQuestion.right === selectedKey) {
@@ -61,12 +63,16 @@
                 this.activeCard = 'answer-result-card'
             },
             nextQuestion(){
-                console.log("next plz")
+                if(this.questionNumber < this.questions.length){
+                    ++this.questionNumber;
+                    return this.activeCard = "question-card";
+                }
+                this.activeCard = "end-result-card";
             }
         },
         computed: {
             cardProps() {
-                return {
+                return  {
                     "start-game-card": {
                         startButtonText: this.startButtonText,
                         startMessage: this.startMessage
@@ -77,11 +83,16 @@
                         message: this.lastAnswer === this.activeQuestion.right ? this.successMessage : this.failMessage,
                         success: this.lastAnswer === this.activeQuestion.right,
                         question: this.activeQuestion
+                    },
+                    "end-result-card": {
+                        message: this.endMessage,
+                        questionsAsked: this.questions ? this.questions.length : 0,
+                        rightAnswers: this.score
                     }
                 }
             },
             activeQuestion(){
-                return this.questions[this.questionNumber - 1]
+                return this.questions && this.questions.length ? this.questions[Math.max(this.questionNumber - 1, 0)] : {}
             }
         }
     }
@@ -117,8 +128,8 @@
     }
 
     .squash-enter-active {
-        animation: restore 1s ease-out forwards;
-        transition: opacity 0.7s;
+        animation: restore 0.5s ease-out forwards;
+        transition: opacity 0.4s;
         opacity: 1;
     }
 
@@ -127,8 +138,8 @@
     }
 
     .squash-leave-active {
-        animation: squash 1s ease-out forwards;
-        transition: opacity 0.7s;
+        animation: squash 0.5s ease-out forwards;
+        transition: opacity 0.4s;
         opacity: 0;
     }
 

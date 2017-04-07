@@ -6,6 +6,7 @@
                 :nextButtonText="nextButtonText"
                 :successMessage="successMessage"
                 :failMessage="failMessage"
+                :endMessage="endMessage"
                 :questions="questions"></quiz-board>
     </div>
 </template>
@@ -62,7 +63,8 @@
                 startButtonText: "Start!",
                 nextButtonText: "Następne Pytanie",
                 successMessage: "Brawo, dobra Odpowiedź!",
-                failMessage: "Błąd, poprawna odpowiedź to:"
+                failMessage: "Błąd, poprawna odpowiedź to:",
+                endMessage: "Koniec gry! Twój wynik to:"
             }
         }
     }
