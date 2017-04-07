@@ -105,42 +105,37 @@
         width: 60%;
     }
 
+    /*y odwraca majac za srodek oś y, rotateX z osia x jako srodek a rotateZ z osia Z*/
     @keyframes squash {
         from {
-            width: 100%;
+            transform: rotateY(0)
         }
         to {
-            width: 0;
+            transform: rotateY(90deg)
         }
     }
 
     @keyframes restore {
         from {
-            width: 0;
+            transform: rotateY(90deg)
         }
         to {
-            width: 100%;
+            transform: rotateY(0)
         }
     }
 
     .squash-enter {
-        opacity: 0;
     }
 
     .squash-enter-active {
         animation: restore 0.5s ease-out forwards;
-        transition: opacity 0.4s;
-        opacity: 1;
     }
 
     .squash-leave {
-        opacity: 1;
     }
 
     .squash-leave-active {
         animation: squash 0.5s ease-out forwards;
-        transition: opacity 0.4s;
-        opacity: 0;
     }
 
 </style>
