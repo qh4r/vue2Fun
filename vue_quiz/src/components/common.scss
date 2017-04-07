@@ -1,0 +1,32 @@
+$btn-color: #3c8cdd;
+.btn {
+  border-radius: 8px;
+  background-color: $btn-color;
+  color: white;
+  font-size: 1.4em;
+  text-align: center;
+  padding: 10px;
+  box-shadow: black 1px 1px 10px;
+  outline: none;
+
+  &:hover {
+    background-color: darken($btn-color, 10%);
+  }
+}
+
+.card-container-base {
+  margin: 10px;
+  height: 100%;
+  width: 100%;
+  border-radius: 4px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-normal-text {
+  color: #111;
+  font-size: 2em;
+  font-weight: 300;
+}
