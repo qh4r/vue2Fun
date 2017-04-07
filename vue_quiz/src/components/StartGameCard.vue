@@ -1,7 +1,7 @@
 <template>
     <div class="start-container">
         <h2>{{startMessage}}</h2>
-        <button class="btn">{{startButtonText}}</button>
+        <button @click="startCallback" class="btn">{{startButtonText}}</button>
     </div>
 </template>
 
@@ -21,7 +21,9 @@
             return {}
         },
         methods: {
-
+            startCallback() {
+                this.$emit("start-game")
+            }
         }
     }
 </script>
@@ -30,6 +32,10 @@
     @import "common";
     .start-container {
         @extend .card-container-base;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
         background-color: #eeeaef;
     }
 
