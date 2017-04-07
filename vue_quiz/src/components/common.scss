@@ -1,4 +1,19 @@
 $btn-color: #3c8cdd;
+$success-color: #80e9ad;
+$error-color: #f07979;
+
+@mixin answer-coloring($color) {
+  background-color: $color;
+  color: white;
+
+  .btn {
+    background-color: darken($color, 30%);
+    &:hover {
+      background-color: darken($color, 40%);
+    }
+  }
+}
+
 .btn {
   border-radius: 8px;
   background-color: $btn-color;

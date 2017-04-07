@@ -5,6 +5,7 @@
             <component
                     @start-game="startGame"
                     @answer="onAnswer"
+                    @next-question="nextQuestion"
                     :is="activeCard" v-bind="cardProps[activeCard]"></component>
         </transition>
     </div>
@@ -13,6 +14,7 @@
 <script>
     import StartGameCard from './StartGameCard.vue';
     import QuestionCard from './QuestionCard.vue';
+    import AnswerResultCard from './AnswerResultCard.vue';
     export default {
         props: {
             questions: {
@@ -23,17 +25,28 @@
             },
             startButtonText: {
                 type: String
+            },
+            nextButtonText: {
+                type: String
+            },
+            successMessage: {
+                type: String
+            },
+            failMessage: {
+                type: String
             }
         },
         components: {
             "start-game-card": StartGameCard,
             "question-card": QuestionCard,
+            'answer-result-card': AnswerResultCard
         },
         data () {
             return {
                 activeCard: "start-game-card",
                 questionNumber: 1,
-                score: 0
+                score: 0,
+                lastAnswer: ''
             }
         },
         methods: {
@@ -41,7 +54,14 @@
                 this.activeCard = "question-card"
             },
             onAnswer(selectedKey){
-                console.log('answer ', selectedKey)
+                this.lastAnswer = selectedKey;
+                if (this.activeQuestion.right === selectedKey) {
+                    this.score++;
+                }
+                this.activeCard = 'answer-result-card'
+            },
+            nextQuestion(){
+                console.log("next plz")
             }
         },
         computed: {
@@ -51,8 +71,17 @@
                         startButtonText: this.startButtonText,
                         startMessage: this.startMessage
                     },
-                    "question-card": Object.assign({}, this.questions[this.questionNumber - 1])
+                    "question-card": Object.assign({}, this.activeQuestion),
+                    "answer-result-card": {
+                        nextButtonText: this.nextButtonText,
+                        message: this.lastAnswer === this.activeQuestion.right ? this.successMessage : this.failMessage,
+                        success: this.lastAnswer === this.activeQuestion.right,
+                        question: this.activeQuestion
+                    }
                 }
+            },
+            activeQuestion(){
+                return this.questions[this.questionNumber - 1]
             }
         }
     }
