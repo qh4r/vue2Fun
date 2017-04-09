@@ -12,6 +12,12 @@
             </div>
         </div>
         <button @click="submit" class="btn btn-info ">Wyslij</button>
+        <hr>
+        <ul v-if="usersList.length" class="list-group">
+            <li class="list-group-item" v-for="user in usersList">
+                {{user.id}} - {{user.username}} {{user.email}}
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -20,13 +26,27 @@
         data () {
             return {
                 username: '',
-                email: ''
+                email: '',
+                usersList: []
             }
+        },
+        beforeMount(){
+            this.$http.get()
+                .then((data) => {
+                console.log('asd', data.json());
+                    return data.json();
+                })
+                .then((body) => {
+                    console.log(body);
+                    this.usersList = Object.keys(body).map(key => {
+                        return Object.assign({}, body[key], {id: key});
+                    });
+                }).catch(err => console.log(err))
         },
         methods: {
             submit(){
                 // dostepne dzieki vue resource
-                this.$http.post('https://vue-fun.firebaseio.com/data.json', {
+                this.$http.post(null, {
                     username: this.username,
                     email: this.email
                 }).then((response) => {
