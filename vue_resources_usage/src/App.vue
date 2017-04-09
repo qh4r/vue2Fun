@@ -16,6 +16,7 @@
         <ul v-if="usersList.length" class="list-group">
             <li class="list-group-item" v-for="user in usersList">
                 {{user.id}} - {{user.username}} {{user.email}}
+
             </li>
         </ul>
     </div>
@@ -27,13 +28,21 @@
             return {
                 username: '',
                 email: '',
-                usersList: []
+                usersList: [],
+                resource: {}
             }
         },
         beforeMount(){
-            this.$http.get()
+            const customActions = {
+                customSave: {method: "POST", url: "test.json"}
+            };
+
+            // drugi argument to dane requestu, 3 to customowe akcje na resourcie
+            this.resource = this.$resource('data.json?{test}', {}, customActions);
+//            w klamerkach mamy wymienialne argumenty
+
+            this.$http.get('data.json')
                 .then((data) => {
-                console.log('asd', data.json());
                     return data.json();
                 })
                 .then((body) => {
@@ -46,13 +55,28 @@
         methods: {
             submit(){
                 // dostepne dzieki vue resource
-                this.$http.post(null, {
+
+//                this.$http.post('data.json', {
+//                    username: this.username,
+//                    email: this.email
+//                })
+
+                // alternatywny sposob na posta z uzycie resourca (save to domyslna metoda"
+                this.resource.save({
                     username: this.username,
                     email: this.email
-                }).then((response) => {
-                    console.log(response)
-                }).catch((err) => {
+                })
+                    .then((response) => {
+                        console.log(response)
+                    }).catch((err) => {
                     console.log(err)
+                });
+
+                //uzycie customowej metody na resourcie
+                // pierwszy argument to ZAWSZE customowalne elementy linku (jesli jakiekolwiek sa wymagane)
+                this.resource.customSave({test: "Konstantynopol"},{
+                    username: this.username,
+                    email: this.email
                 })
             }
         }

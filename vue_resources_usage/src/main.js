@@ -5,7 +5,7 @@ import Resource from 'vue-resource'
 Vue.use(Resource);
 
 // domyslny url bazowy - tak ustawiamy dla calej apki
-Vue.http.options.root = 'https://vue-fun.firebaseio.com/data.json';
+Vue.http.options.root = 'https://vue-fun.firebaseio.com/';
 
 // mozna przechwytywac i modyfikowac requesty (przed wyslaniem)
 Vue.http.interceptors.push((request, next) => {
