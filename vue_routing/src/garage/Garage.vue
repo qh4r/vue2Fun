@@ -48,6 +48,16 @@
             id(){
                 return this.$route.params.id;
             }
+        },
+        beforeRouteEnter(to, from, next){
+            console.log("przed zaladowaniem komponentu garaz");
+            next(vm => {
+                console.log("juz po zaladowaniu przed mountem z dostepem do komponentu w vm")
+            })
+        },
+        beforeRouteLeave(to, from, next) {
+            console.log("before leave dziala jak before enter");
+            next();
         }
     }
 </script>

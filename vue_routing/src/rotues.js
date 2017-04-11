@@ -3,6 +3,8 @@ import CarDetails from './garage/CarDetails.vue';
 import CarEdit from './garage/CarEdit.vue';
 import Home from './Home.vue';
 import Test from './TestComponent.vue';
+
+// da sie lazy laodowac komponenty z ensure i resolve - dokumentacja -- http://router.vuejs.org/en/advanced/lazy-loading.html
 export const routes = [
     // {path: '/', component: Home},
     {
@@ -19,7 +21,10 @@ export const routes = [
             default: Garage,
             'test-bottom': Test
         }, children: [
-        {path: '/cars/:id', component: CarDetails, name: "user_details"},
+        {path: '/cars/:id', component: CarDetails, name: "user_details", beforeEnter: (to,from,next) => {
+                console.log("before w user details - wywola sie tylko przy wejsciu na komponent (jak komponent jest aktywny na wielu routach to tylko przy mouncie)")
+                next();
+        }},
         {path: '/cars/:id/edit', component: CarEdit, name: "edit_user"}
     ]
     },
