@@ -4,7 +4,11 @@ import VueRouter from 'vue-router';
 import {routes} from './rotues';
 
 const router = new VueRouter({
-    routes
+    routes,
+    // pozwala scrolowac do elementu
+    scrollBehavior(to, from, savedPosition){
+        return {selector: '#test'}
+    }
 });
 
 Vue.use(VueRouter);
