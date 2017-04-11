@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h2>Edycja fajnego auta</h2>
+        <h2>Edycja fajnego auta {{id}}</h2>
 
         <p>
             How cloudy. You hoist like a jolly roger. Scallywags are the sails of the dead greed.
@@ -13,7 +13,9 @@
 </template>
 
 <script>
+    import {routeIdMixin} from './routeIdMixin';
     export default {
+        mixins: [routeIdMixin],
         data () {
             return {}
         }
